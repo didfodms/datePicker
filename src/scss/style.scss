@@ -1,0 +1,170 @@
+/*
+scss와 css의 차이!
+- 계층 구조로 되어있음
+- 변수 사용 가능
+- 조건문, 반복문 사용 가능
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  // 속성(width, height 등..)이 border까지 포함
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.date-picker {
+  // 위치는 자기 자신 기준!
+  position: relative;
+
+  .date-input {
+    // 위아래 여백 30px, 중앙 정렬
+    margin: 30px auto;
+    /* 왜 해준거지? container는 누구고 item은 누구? 
+    item이 없으면 자기 자신을 item 취급하나??
+    -> container는 data-input. item은 2022/06/18. */
+    display: flex;
+    height: 60px;
+    width: 300px;
+    /*
+    자기 자신 기준으로
+    justify-center : 가로축 기준, 좌우 정렬
+    align-items : 세로축 기준, 상하 정렬
+    */
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    color: #313131;
+    font-size: 28px;
+    cursor: pointer;
+    // &는 이걸 감싸고 있는 element를 가리킨다
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
+  .calendar {
+    display: none;
+    // 부모 요소 기준으로 위치 설정!
+    position: absolute;
+    width: 700px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    /*
+    border와 outline의 차이!
+    - border는 div의 크기도 변함 (레이아웃에 영향)
+    - outline은 안변함 (레이아웃에 영향 x)
+    - 두개를 동시에 사용하면 테두리가 생기는 위치가 다름!
+      -> 이걸 이용해서 div 디자인이 가능하다!
+    */
+    outline: 2px solid lightgrey;
+    border-radius: 3%;
+    margin: auto;
+    overflow: hidden;
+
+    &.active {
+      // block-level element 와 inline element를 결정하는 부분
+      display: block;
+    }
+
+    .month {
+      display: flex;
+      // justify-content : 가로축 기준 양옆으로 정렬
+      justify-content: space-between;
+      // align-items : 세로축 기준 중앙 정렬
+      align-items: center;
+      border-bottom: 2px solid #eee;
+
+      .arrows {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #313131;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: #f3f3f3;
+        }
+
+        // 활성화(onclick)
+        &:active {
+          background-color: #00a2ff;
+        }
+      }
+    }
+
+    .days {
+      display: flex;
+
+      .day {
+        display: flex;
+        width: 100px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+
+        &:first-child {
+          color: red;
+        }
+
+        &:last-child {
+          color: blue;
+        }
+      }
+    }
+
+    .dates {
+      // !
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+
+      .date {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #313131;
+        height: 100px;
+        width: 100px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: #f3f3f3;
+        }
+
+        &.today {
+          background-color: #ca92ff;
+        }
+
+        &.selected {
+          background-color: #00ca85;
+        }
+
+        /* // js 동적 구현. 근데 n은 어떤값을?
+        // n은 0번째부터 시작. 날짜 2, 9, 16... 을 빨간색으로
+        &:nth-child(7n + 2) {
+          color: red;
+        }
+        // n은 0번째부터 시작. 날짜 1, 8, 15... 을 파란색으로
+        &:nth-child(7n + 1) {
+          color: blue;
+        }
+
+        // 매달 1일이 어느 요일 위치에 있어야하는지 설정
+        &:first-child {
+          // 7번 grid line 을 시작점으로 설정
+          grid-column-start: 7;
+        } */
+      }
+    }
+  }
+}
